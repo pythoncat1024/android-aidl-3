@@ -38,7 +38,7 @@ import okio.Source;
  */
 public final class Progress {
 
-    public void run(String url, ProgressListener progressListener) throws Exception {
+    public void run(String url, ProgressListener progressListener) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
                 .build();

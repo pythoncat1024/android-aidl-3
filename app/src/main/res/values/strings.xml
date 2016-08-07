@@ -8,4 +8,6 @@
     <string name="show_what">显示什么呢？</string>
     <string name="get">Get请求</string>
     <string name="post">post请求</string>
+    <string name="dow">下载信息显示:&#160;%1$s</string>
+    <string name="down_load_btn">下载</string>
 </resources>

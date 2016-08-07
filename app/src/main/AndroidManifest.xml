@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.FileIOActivity" />
-        <activity android:name=".activity.TestOkhttpActivity"></activity>
+        <activity android:name=".activity.TestOkhttpActivity" />
+        <activity android:name=".activity.NetActivity"></activity>
     </application>
 
 </manifest>
