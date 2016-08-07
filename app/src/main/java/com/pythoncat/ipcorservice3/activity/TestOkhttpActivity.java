@@ -19,12 +19,9 @@ import java.util.Random;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
-import okio.BufferedSink;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -53,20 +50,7 @@ public class TestOkhttpActivity extends AppCompatActivity {
         });
 
         btnPost.setOnClickListener(v -> {
-            Request request = new Request.Builder()
-                    .url("https://github.com/hongyangAndroid")
-                    .method("post", new RequestBody() {
-                        @Override
-                        public MediaType contentType() {
-                            return null;
-                        }
-
-                        @Override
-                        public void writeTo(BufferedSink sink) throws IOException {
-
-                        }
-                    })
-                    .build();
+            LogUtils.e("todo post");
         });
     }
 

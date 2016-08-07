@@ -44,4 +44,5 @@ dependencies {
     // explicitly depend on RxJava's latest version for bug fixes and new features.
     compile 'io.reactivex:rxjava:1.1.8'
     compile 'com.apkfuns.logutils:library:1.4.2'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
 }

@@ -18,7 +18,7 @@ import com.pythoncat.ipcorservice3.utils.Path;
 import com.pythoncat.service.IOInterface;
 import com.pythoncat.service.callback.IOCallback;
 import com.pythoncat.service.domain.FileInfo;
-import com.pythoncat.service.io.FileService;
+import com.pythoncat.service.service.FileService;
 
 public class FileIOActivity extends BaseActivity {
 
