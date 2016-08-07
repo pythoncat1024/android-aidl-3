@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">IPCorService3</string>
+    <string name="file_copy">文件复制</string>
+    <string name="file_download">文件下载</string>
+</resources>
