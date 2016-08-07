@@ -20,8 +20,6 @@ import com.pythoncat.service.callback.NetCallback;
 import com.pythoncat.service.domain.Download;
 import com.pythoncat.service.service.NetService;
 
-import java.util.Random;
-
 public class NetActivity extends BaseActivity {
 
     private ProgressBar pbNet;
@@ -68,10 +66,8 @@ public class NetActivity extends BaseActivity {
                                 int x = (int) (download.progress * 1f / download.total * 100f);
                                 pbNet.setProgress(x);
                                 LogUtils.e(x);
-//                    tvShow.setText("download: progress==" + download.progress + ", total==" + download.total + " , done==" + download.done);
                                 tvNet.setText("download: progress==" + x + "%");
-                                tvNet.setText("download: progress==" + download.toString());
-                                tvNet.setTextColor(new Random().nextInt(1) == 0 ? Color.RED : Color.GREEN);
+                                tvNet.setTextColor(Color.BLACK);
                             });
                         }
                     });
