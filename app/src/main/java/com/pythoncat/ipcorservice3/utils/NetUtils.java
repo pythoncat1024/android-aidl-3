@@ -1,7 +1,11 @@
 package com.pythoncat.ipcorservice3.utils;
 
+import android.app.Activity;
+
 import com.apkfuns.logutils.LogUtils;
 import com.pythoncat.ipcorservice3.bean.Download;
+
+import java.util.concurrent.Executors;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -47,5 +51,27 @@ public class NetUtils {
                 }
             }
         });
+    }
+
+    public static void downLoad(Activity ac, String url, Doo d) throws Exception {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            try {
+                new Progress().run(url,
+                        (bytesRead, contentLength, done) -> {
+                            int x = (int) (bytesRead * 1f / contentLength * 100f);
+                            ac.runOnUiThread(() ->
+                                    d.progress(new Download(bytesRead, contentLength, done)));
+                            LogUtils.e("当前进度=== " + x + "%");
+                        });
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+
+    public interface Doo {
+        void progress(Download d);
     }
 }

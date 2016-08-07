@@ -48,7 +48,8 @@ public class TestOkhttpActivity extends AppCompatActivity {
         btnGet.setOnClickListener(v -> {
 //            get01();
 //            get02();
-            downLoad();
+//            downLoad();
+            downLoadAsync();
         });
 
         btnPost.setOnClickListener(v -> {
@@ -67,6 +68,26 @@ public class TestOkhttpActivity extends AppCompatActivity {
                     })
                     .build();
         });
+    }
+
+    private void downLoadAsync() {
+        String url = "http://music.baidu.com/cms/BaiduMusic-pcwebapphomedown1.apk";
+        try {
+            NetUtils.downLoad(this, url, download -> {
+                int x = (int) (download.progress * 1f / download.total * 100f);
+                pb.setProgress(x);
+                LogUtils.e(x);
+//                    tvShow.setText("download: progress==" + download.progress + ", total==" + download.total + " , done==" + download.done);
+                tvShow.setText("download: progress==" + x + "%");
+                tvShow.setText("download: progress==" + download.toString());
+                tvShow.setTextColor(new Random().nextInt(1) == 0 ? Color.RED : Color.GREEN);
+            });
+        } catch (Exception e) {
+            //    LogUtils.e(e);
+            tvShow.setText("下载出错了:" + e.getMessage());
+            tvShow.setTextColor(Color.RED);
+            LogUtils.e(e);
+        }
     }
 
     private void downLoad() {
