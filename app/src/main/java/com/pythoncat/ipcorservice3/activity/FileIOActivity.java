@@ -62,7 +62,7 @@ public class FileIOActivity extends BaseActivity {
                         int progress = (int) (fo.progress * 1f / fo.total * 100f);
                         pb.setProgress(progress);
                         String pro = progress + "%";
-                        LogUtils.e(pro);
+                        LogUtils.d(pro);
                         tvIOprogress.setText(getString(R.string.io_progress, pro));
                     });
                 }
