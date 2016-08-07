@@ -75,8 +75,6 @@ public class NetActivity extends BaseActivity {
                     e.printStackTrace();
                     LogUtils.e(e);
                 }
-
-
             }
         });
     }
