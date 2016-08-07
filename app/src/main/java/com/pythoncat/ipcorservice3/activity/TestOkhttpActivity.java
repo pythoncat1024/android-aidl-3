@@ -1,17 +1,21 @@
 package com.pythoncat.ipcorservice3.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
 import com.pythoncat.ipcorservice3.R;
+import com.pythoncat.ipcorservice3.utils.NetUtils;
 import com.pythoncat.ipcorservice3.utils.Progress;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Random;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -21,12 +25,16 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okio.BufferedSink;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class TestOkhttpActivity extends AppCompatActivity {
 
     private TextView tvShow;
     private Button btnGet;
     private Button btnPost;
+    private ProgressBar pb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +47,8 @@ public class TestOkhttpActivity extends AppCompatActivity {
     private void execute() {
         btnGet.setOnClickListener(v -> {
 //            get01();
-            get02();
+//            get02();
+            downLoad();
         });
 
         btnPost.setOnClickListener(v -> {
@@ -60,11 +69,38 @@ public class TestOkhttpActivity extends AppCompatActivity {
         });
     }
 
+    private void downLoad() {
+        String url = "http://music.baidu.com/cms/BaiduMusic-pcwebapphomedown1.apk";
+        Observable.defer(() -> NetUtils.downLoad(url))
+                .onBackpressureBuffer()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(download -> {
+                    int x = (int) (download.progress * 1f / download.total * 100f);
+                    pb.setProgress(x);
+                    LogUtils.e(x);
+//                    tvShow.setText("download: progress==" + download.progress + ", total==" + download.total + " , done==" + download.done);
+                    tvShow.setText("download: progress==" + x + "%");
+                    tvShow.setText("download: progress==" + download.toString());
+                    tvShow.setTextColor(new Random().nextInt(1) == 0 ? Color.RED : Color.GREEN);
+                }, e -> {
+                    //    LogUtils.e(e);
+                    tvShow.setText("下载出错了:" + e.getMessage());
+                    tvShow.setTextColor(Color.RED);
+                    LogUtils.e(e);
+                }, () -> {
+                    //     LogUtils.e("下载完成：####");
+                    LogUtils.e("下载完成：####");
+                    tvShow.setTextColor(Color.BLUE);
+                    tvShow.setText("下载完成辣！！！！！！");
+                });
+    }
+
     private void get02() {
         String url = "http://music.baidu.com/cms/BaiduMusic-pcwebapphomedown1.apk";
-        new Thread(()->{
+        new Thread(() -> {
             try {
-                new Progress().run(url);
+                new Progress().run(url, null);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -114,5 +150,7 @@ public class TestOkhttpActivity extends AppCompatActivity {
         tvShow = (TextView) findViewById(R.id.tv_test_ok);
         btnGet = (Button) findViewById(R.id.test_btn_get);
         btnPost = (Button) findViewById(R.id.test_btn_post);
+        pb = (ProgressBar) findViewById(R.id.pb_download);
+        pb.setMax(100);
     }
 }

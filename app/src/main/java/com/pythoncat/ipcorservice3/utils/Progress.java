@@ -33,19 +33,22 @@ import okio.ForwardingSource;
 import okio.Okio;
 import okio.Source;
 
+/**
+ * from: OKHTTP 官方sample 中的源码
+ */
 public final class Progress {
 
-    public void run(String url) throws Exception {
+    public void run(String url, ProgressListener progressListener) throws Exception {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
 
-        final ProgressListener progressListener = new ProgressListener() {
-            @Override
-            public void update(long bytesRead, long contentLength, boolean done) {
-                LogUtils.e("progress==" + bytesRead + " , total==" + contentLength + " , done = " + done);
-            }
-        };
+//        final ProgressListener progressListener = new ProgressListener() {
+//            @Override
+//            public void update(long bytesRead, long contentLength, boolean done) {
+//                LogUtils.e("progress==" + bytesRead + " , total==" + contentLength + " , done = " + done);
+//            }
+//        };
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .addNetworkInterceptor(new Interceptor() {
@@ -73,7 +76,7 @@ public final class Progress {
     }
 
     public static void main(String... args) throws Exception {
-        new Progress().run("https://publicobject.com/helloworld.txt");
+        new Progress().run("https://publicobject.com/helloworld.txt", null);
     }
 
     private static class ProgressResponseBody extends ResponseBody {

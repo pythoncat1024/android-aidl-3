@@ -1,55 +1,49 @@
 package com.pythoncat.ipcorservice3.utils;
 
 import com.apkfuns.logutils.LogUtils;
+import com.pythoncat.ipcorservice3.bean.Download;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by pythonCat on 2016/8/7.
  */
 public class NetUtils {
-    private static final OkHttpClient client = new OkHttpClient();
+
 
     /**
-     * 异步get
-     * <p>
-     * 在一个工作线程中下载文件，当响应可读时回调Callback接口。读取响应时会阻塞当前线程。OkHttp现阶段不提供异步api来接收响应体。
+     * 下载文件
      *
-     * @throws Exception
+     * @param url 下载地址
+     * @return 进度信息
      */
-    public static void run() throws Exception {
-        Request request = new Request.Builder()
-                .url("http://publicobject.com/helloworld.txt")
-                .build();
+    public static Observable<Download> downLoad(String url) {
 
-        client.newCall(request).enqueue(new Callback() {
+        /**
+         * // onBackpressureBuffer()方法,防止数据源发射过快引起的MissingBackpressureException
+         .onBackpressureBuffer()
+         */
+        return Observable.create(new Observable.OnSubscribe<Download>() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                call.cancel();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-                LogUtils.e(response.body().bytes());
-                FileOutputStream out = null;
-                byte[] bytes = response.body().bytes();
+            public void call(Subscriber<? super Download> subscriber) {
                 try {
-                    out = new FileOutputStream(new File("/sdcard/pythonCatDir/cc.apk"));
-                    out.write(bytes);
-                    out.flush();
-                } finally {
-                    out.close();
+                    new Progress().run(url,
+                            (bytesRead, contentLength, done) -> {
+                                if (!done) {
+                                    int x = (int) (bytesRead * 1f / contentLength * 100f);
+                                    if (x % 10 == 0) {  // 减少回调次数
+
+                                    }
+                                    subscriber.onNext(new Download(bytesRead, contentLength, done));
+                                    LogUtils.e("当前进度=== " + x + "%");
+                                } else {
+                                    subscriber.onCompleted();
+                                }
+                            });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
                 }
             }
         });
