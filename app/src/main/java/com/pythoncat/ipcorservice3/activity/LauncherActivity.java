@@ -15,6 +15,10 @@ public class LauncherActivity extends BaseActivity {
         findViewById(R.id.btn_file_copy).setOnClickListener(v->{
             startActivity(new Intent(get(),FileIOActivity.class));
         });
+
+        findViewById(R.id.btn_test_okhttp).setOnClickListener(v->{
+            startActivity(new Intent(get(),TestOkhttpActivity.class));
+        });
     }
 
 }

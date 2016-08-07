@@ -16,10 +16,19 @@
         android:layout_height="wrap_content"
         android:text="@string/io_progress" />
 
+    <ProgressBar
+        android:id="@+id/progressBar_file_io"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" />
+
     <Button
         android:id="@+id/btn_start_io"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/start_copy" />
+
+
 </LinearLayout>

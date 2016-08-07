@@ -28,4 +28,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/file_download" />
+
+    <Button
+        android:id="@+id/btn_test_okhttp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/test_okhttp" />
 </LinearLayout>

@@ -7,6 +7,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
@@ -47,6 +48,8 @@ public class FileIOActivity extends BaseActivity {
 
     private void init() {
         TextView tvIOprogress = (TextView) findViewById(R.id.tv_show_io_progress);
+        ProgressBar pb = (ProgressBar) findViewById(R.id.progressBar_file_io);
+        pb.setMax(100);
         tvIOprogress.setText(getString(R.string.io_progress, ""));
         findViewById(R.id.btn_start_io).setOnClickListener(v -> {
             // todo 开始复制
@@ -54,9 +57,11 @@ public class FileIOActivity extends BaseActivity {
             CopyApi.copy(Path.src, Path.dest, mFileBinder, new IOCallback.Stub() {
                 @Override
                 public void callback(FileInfo fo) throws RemoteException {
-                    runOnUiThread(()->{
+                    runOnUiThread(() -> {
                         LogUtils.e(fo);
-                        String pro = (int) (fo.progress * 1f / fo.total * 100f) + "%";
+                        int progress = (int) (fo.progress * 1f / fo.total * 100f);
+                        pb.setProgress(progress);
+                        String pro = progress + "%";
                         LogUtils.e(pro);
                         tvIOprogress.setText(getString(R.string.io_progress, pro));
                     });
