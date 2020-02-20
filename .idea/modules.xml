@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/IPCorService3.iml" filepath="$PROJECT_DIR$/IPCorService3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-aidl-3.iml" filepath="$PROJECT_DIR$/android-aidl-3.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/service/service.iml" filepath="$PROJECT_DIR$/service/service.iml" />
     </modules>

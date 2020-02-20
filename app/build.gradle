@@ -1,13 +1,11 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'/*这个需要添加*/
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 27
 
     defaultConfig {
         applicationId "com.pythoncat.ipcorservice3"
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
     }
@@ -34,18 +32,17 @@ repositories {
 }/*这个需要添加*/
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.1.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     /*可选项：这个需要添加*/
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
     /*##############*/
-    compile project(':service')
-    compile 'io.reactivex:rxandroid:1.2.1'
+    implementation project(':service')
+    implementation 'io.reactivex:rxandroid:1.2.1'
     // Because RxAndroid releases are few and far between, it is recommended you also
     // explicitly depend on RxJava's latest version for bug fixes and new features.
-    compile 'io.reactivex:rxjava:1.1.8'
-    compile 'com.apkfuns.logutils:library:1.4.2'
-    compile 'com.squareup.okhttp3:okhttp:3.4.1'
-    compile 'com.google.code.gson:gson:2.7'
+    implementation 'io.reactivex:rxjava:1.1.8'
+    implementation 'com.apkfuns.logutils:library:1.7.5'
+    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
+    implementation 'com.google.code.gson:gson:2.7'
 }
