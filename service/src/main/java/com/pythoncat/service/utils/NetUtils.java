@@ -19,7 +19,6 @@ public class NetUtils {
 
     /**
      * 下载文件
-     *
      * @param url 下载地址
      * @return 进度信息
      */
@@ -33,18 +32,18 @@ public class NetUtils {
             public void call(Subscriber<? super Download> subscriber) {
                 try {
                     new Progress().run(url,
-                            (bytesRead, contentLength, done) -> {
-                                if (!done) {
-                                    int x = (int) (bytesRead * 1f / contentLength * 100f);
-                                    if (x % 10 == 0) {  // 减少回调次数
+                        (bytesRead, contentLength, done) -> {
+                            if (!done) {
+                                int x = (int) (bytesRead * 1f / contentLength * 100f);
+                                if (x % 10 == 0) {  // 减少回调次数
 
-                                    }
-                                    subscriber.onNext(new Download(bytesRead, contentLength, done));
-                                    LogUtils.e("当前进度=== " + x + "%");
-                                } else {
-                                    subscriber.onCompleted();
                                 }
-                            });
+                                subscriber.onNext(new Download(bytesRead, contentLength, done));
+                                LogUtils.e("当前进度=== " + x + "%");
+                            } else {
+                                subscriber.onCompleted();
+                            }
+                        });
                 } catch (Exception e) {
                     e.printStackTrace();
                     subscriber.onError(e);
@@ -55,7 +54,6 @@ public class NetUtils {
 
     /**
      * 下载文件
-     *
      * @param url 下载地址
      * @return 进度信息
      */

@@ -30,6 +30,7 @@ public class Download implements Parcelable {
                 '}';
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -48,7 +49,7 @@ public class Download implements Parcelable {
         this.done = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<Download> CREATOR = new Parcelable.Creator<Download>() {
+    public static final Creator<Download> CREATOR = new Creator<Download>() {
         @Override
         public Download createFromParcel(Parcel source) {
             return new Download(source);
