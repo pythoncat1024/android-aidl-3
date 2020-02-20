@@ -21,31 +21,28 @@ public class CopyApi {
 
     public static Observable<FileInfo> copy(String src, String dest, IOInterface binder) {
 
-        return Observable.create(new Observable.OnSubscribe<FileInfo>() {
-            @Override
-            public void call(Subscriber<? super FileInfo> subscriber) {
-                try {
-                    subscriber.onStart();
-                    binder.copy(src, dest, new IOCallback.Stub() {
-                        @Override
-                        public void callback(FileInfo fo) throws RemoteException {
-                            LogUtils.d("fo.progress===" + fo.progress);
-                            if (fo.progress == fo.total || fo.state == IOState.finished) {
-                                LogUtils.d("FFFFFFFFFFFFFFFFFFFFF");
-                                subscriber.onCompleted();
-                            } else {
-                                LogUtils.d("eeeeeeeeeeeeeeeeeeeeeeeeee");
-                                subscriber.onNext(fo);
-                            }
+        return Observable.create(subscriber -> {
+            try {
+                subscriber.onStart();
+                binder.copy(src, dest, new IOCallback.Stub() {
+                    @Override
+                    public void callback(FileInfo fo) throws RemoteException {
+                        LogUtils.d("fo.progress===" + fo.progress);
+                        if (fo.progress == fo.total || fo.state == IOState.finished) {
+                            LogUtils.d("FFFFFFFFFFFFFFFFFFFFF");
+                            subscriber.onCompleted();
+                        } else {
+                            LogUtils.d("eeeeeeeeeeeeeeeeeeeeeeeeee");
+                            subscriber.onNext(fo);
                         }
-                    });
-                    int x = 9 / 0;
-                } catch (RemoteException e) {
-                    LogUtils.e("dddddddddddddddddd");
-                    e.printStackTrace();
-                    LogUtils.e(e);
-                    subscriber.onError(e);
-                }
+                    }
+                });
+                int x = 9 / 0;
+            } catch (RemoteException e) {
+                LogUtils.e("dddddddddddddddddd");
+                e.printStackTrace();
+                LogUtils.e(e);
+                subscriber.onError(e);
             }
         });
     }

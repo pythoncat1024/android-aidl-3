@@ -25,7 +25,7 @@ public class NetService extends Service {
     private class RemoteBinder extends NetInterface.Stub {
 
         @Override
-        public void download(String url, NetCallback netCall) throws RemoteException {
+        public void download(String url, NetCallback netCall) {
             Executors.newSingleThreadExecutor().execute(() -> {
                 try {
                     NetUtils.downLoad(url, netCall);
